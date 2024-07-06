@@ -198,22 +198,13 @@
                 <a-input-number placeholder="最低分" style="width: 100px" @change="updateMinScore" />
                 <a-input-number placeholder="最高分" style="width: 100px" @change="updateMaxScore" />
             </a-form-item>
-            
+
             <a-form-item>
                 <!-- <a-button type="primary" @click="handleFilter">筛选</a-button> -->
             </a-form-item>
         </a-form>
 
         <a-table :columns="columns" :dataSource="filteredData" :scroll="{ x: 2000, y: 850 }">
-            <template #headerCell="{ column }">
-                <template v-if="column.key === 'schoolName'">
-                    <span>
-                        <SmileOutlined />
-                        院校名称
-                    </span>
-                </template>
-            </template>
-
             <template #bodyCell="{ column, record }">
                 <template v-if="column.key === 'schoolName'">
                     <a>{{ record['院校名称'] }}</a>
@@ -233,6 +224,9 @@
                 <template v-else-if="column.key === 'majorType'">
                     <span>{{ record['专业类'] }}</span>
                 </template>
+                <template v-else-if="column.key === 'actions'">
+                    <a-button type="primary" @click="addToArchive(record)">添加</a-button>
+                </template>
             </template>
         </a-table>
     </div>
@@ -240,14 +234,10 @@
 
 <script>
 import { ref } from 'vue';
-import { SmileOutlined } from '@ant-design/icons-vue';
 import fileMappings from '@/data/index.js';
 
 export default {
     name: 'DataTable',
-    components: {
-        SmileOutlined,
-    },
     setup() {
         const selectedBatch = ref('');
         const selectedSubjectType = ref('');
@@ -257,7 +247,6 @@ export default {
         const selectedMajorName = ref('');
         const minScore = ref(null);
         const maxScore = ref(null);
-
         const rawData = ref([]);
         const filteredData = ref([]);
 
@@ -316,10 +305,8 @@ export default {
             filterData();
         };
 
-
         const loadData = async () => {
             try {
-                // Determine the file name based on batch and current URL
                 const url = window.location.href;
                 let category = '';
                 if (url.includes('history')) {
@@ -329,11 +316,6 @@ export default {
                 }
                 const batch = selectedBatch.value;
                 const key = `${category}${batch}`;
-
-                // Log the key being used
-                console.log('Key being used to load data:', key);
-
-                // Load the JSON file using the mapping
                 const data = fileMappings[key];
                 if (data) {
                     rawData.value = data.default || data;
@@ -486,11 +468,38 @@ export default {
                     dataIndex: '2023年投档线位次',
                     key: '2023年投档线位次',
                     fixed: 'right',
+                },
+                {
+                    title: '操作',
+                    key: 'actions',
+                    dataIndex: 'actions',
+                    fixed: 'right',
                 }
             ],
         };
     },
+    methods: {
+    addToArchive(record) {
+      const currentName = this.currentName;
+      const currentScore = this.currentScore;
+      if (!currentName || !currentScore) {
+        alert('请先设定报考人');
+        return;
+      }
 
+      const archiveName = `${currentName}${currentScore}`;
+      let archivesList = JSON.parse(localStorage.getItem('archivesList')) || [];
+      let archive = archivesList.find(archive => archive.name === archiveName);
+
+      if (archive) {
+        archive.data.push(record);
+        localStorage.setItem('archivesList', JSON.stringify(archivesList));
+        alert('数据已添加到报考档案');
+      } else {
+        alert('请先创建报考档案');
+      }
+    },
+  },
 };
 </script>
 

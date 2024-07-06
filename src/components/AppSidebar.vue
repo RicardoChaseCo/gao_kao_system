@@ -1,5 +1,6 @@
 <template>
   <SidebarMenu
+    class="custom-sidebar-menu"
     :menu="menu"
     :collapsed="false"
     hide-toggle
@@ -26,5 +27,8 @@ export default {
 </script>
 
 <style scoped>
-/* Add your custom styles here */
+.custom-sidebar-menu {
+  width: 200px !important;
+  max-width: 200px !important;
+}
 </style>

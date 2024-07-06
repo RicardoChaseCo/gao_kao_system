@@ -11,7 +11,7 @@
     </a-layout-sider>
     <a-layout>
       <AppHeader :collapsed="collapsed" />
-      <a-layout-content :style="{ marginLeft: collapsed ? '80px' : '200px', transition: 'margin-left 0.2s' }">
+      <a-layout-content :style="{ marginLeft: collapsed ? '80px' : '110px', transition: 'margin-left 0.2s' }">
         <router-view />
       </a-layout-content>
     </a-layout>

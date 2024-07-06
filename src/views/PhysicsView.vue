@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="physics-container">
     <DataTable />
   </div>
 </template>
@@ -16,5 +16,11 @@ export default {
 </script>
 
 <style scoped>
-/* Add your styles here */
+.physics-container {
+  padding: 20px;
+  background-color: #f5f5f5;
+  min-height: 80vh;
+}
+
+/* Additional styles for DataTable can be added here if needed */
 </style>

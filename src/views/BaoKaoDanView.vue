@@ -5,7 +5,7 @@
         <h2>{{ name }}</h2>
         <div>
           <a-button type="primary" @click="exportToExcel(name)">导出为 Excel</a-button>
-          <a-button type="danger" @click="deleteArchive(name)">删除</a-button>
+          <a-button type="danger" @click="handleDeleteArchive(name)">删除</a-button>
         </div>
       </div>
       <a-table :dataSource="archive.data" :columns="columns" :pagination="false" />
@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     ...mapMutations(['deleteArchive']),
-    deleteArchive(name) {
+    handleDeleteArchive(name) {
       this.deleteArchive(name);
     },
     exportToExcel(name) {

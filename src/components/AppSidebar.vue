@@ -5,6 +5,7 @@
     :collapsed="collapsed"
     hide-toggle
     theme="white-theme"
+    @item-click="onItemClick"
   >
     <template v-slot:header>
       <div class="sidebar-header">
@@ -21,6 +22,7 @@
 <script>
 import { SidebarMenu } from 'vue-sidebar-menu';
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css';
+import { useRouter } from 'vue-router';
 
 export default {
   name: 'AppSidebar',
@@ -36,6 +38,19 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  setup() {
+    const router = useRouter();
+
+    const onItemClick = (item) => {
+      if (item.href) {
+        router.push(item.href);
+      }
+    };
+
+    return {
+      onItemClick,
+    };
   },
 };
 </script>
@@ -70,7 +85,6 @@ export default {
   --vsm-toggle-btn-bg: #ffffff;
 
   border-right: 1px solid #ddd;
-  /* box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); */
   margin-right: 10px;
 }
 

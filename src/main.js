@@ -10,6 +10,9 @@ import 'vue-sidebar-menu/dist/vue-sidebar-menu.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons'; 
+import '@fortawesome/fontawesome-free/css/all.css';
+import '@fortawesome/fontawesome-free/js/all.js';
+
 
 library.add(fas);
 

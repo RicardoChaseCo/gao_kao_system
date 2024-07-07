@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
       <div>主页面</div>
     </div>
   </template>
@@ -11,6 +11,10 @@
   </script>
   
   <style scoped>
-  /* Add your styles here */
+.container {
+  padding: 20px;
+  background-color: #ffffff;
+  min-height: 80vh;
+}
   </style>
   

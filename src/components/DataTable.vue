@@ -16,7 +16,8 @@
                 </a-select>
             </a-form-item>
             <a-form-item label="省份">
-                <a-select placeholder="选择省份" style="width: 200px" @change="updateProvince">
+                <a-select mode="multiple" placeholder="选择省份" style="width: 200px" @change="updateProvince" show-search
+                    :filter-option="filterOption">
                     <a-select-option value="河北省">河北省</a-select-option>
                     <a-select-option value="山西省">山西省</a-select-option>
                     <a-select-option value="辽宁省">辽宁省</a-select-option>
@@ -63,7 +64,7 @@
                 </a-select>
             </a-form-item>
             <a-form-item label="专业类">
-                <a-select placeholder="选择专业类" style="width: 200px" @change="updateMajorType" show-search
+                <a-select mode="multiple" placeholder="选择专业类" style="width: 200px" @change="updateMajorType" show-search
                     :filter-option="filterOption">
                     <a-select-option value="中医学类">中医学类</a-select-option>
                     <a-select-option value="中国语言文学类">中国语言文学类</a-select-option>
@@ -196,6 +197,7 @@
             </a-form-item>
             <a-form-item label="分数区间">
                 <a-input-number placeholder="最低分" style="width: 100px" @change="updateMinScore" />
+                -
                 <a-input-number placeholder="最高分" style="width: 100px" @change="updateMaxScore" />
             </a-form-item>
 
@@ -225,7 +227,7 @@
                     <span>{{ record['专业类'] }}</span>
                 </template>
                 <template v-else-if="column.key === 'actions'">
-                    <a-button type="primary" @click="addToArchive(record)">添加</a-button>
+                    <a-button type="primary" @click="handleAddToArchive(record)">添加</a-button>
                 </template>
             </template>
         </a-table>
@@ -234,16 +236,18 @@
 
 <script>
 import { ref } from 'vue';
+import { useStore } from 'vuex';
 import fileMappings from '@/data/index.js';
 
 export default {
     name: 'DataTable',
     setup() {
+        const store = useStore();
         const selectedBatch = ref('');
         const selectedSubjectType = ref('');
         const selectedProvince = ref('');
         const selectedType = ref('');
-        const selectedMajorType = ref('');
+        const selectedMajorType = ref([]);
         const selectedMajorName = ref('');
         const minScore = ref(null);
         const maxScore = ref(null);
@@ -276,6 +280,7 @@ export default {
             filterData();
         };
 
+
         const updateType = (value) => {
             selectedType.value = value;
             filterData();
@@ -305,6 +310,27 @@ export default {
             filterData();
         };
 
+        const handleAddToArchive = (record) => {
+            const { name } = store.state.studentInformation;
+            if (!name) {
+                alert('请先设定报考人');
+                return;
+            }
+
+            if (!store.state.tablenamelist[name]) {
+                alert('没有找到当前报考人，请先构建档案');
+                return;
+            }
+
+            const recordToAdd = {
+                schoolName: record['院校名称'],
+                majorName: record['专业名称'],
+
+            };
+            store.commit('addToArchive', { name, record: recordToAdd });
+            alert('数据已添加到报考档案');
+        };
+
         const loadData = async () => {
             try {
                 const url = window.location.href;
@@ -330,17 +356,26 @@ export default {
 
         const filterData = () => {
             filteredData.value = rawData.value.filter((item) => {
+                const matchesMajorType = selectedMajorType.value.length === 0 || selectedMajorType.value.includes(item['专业类']);
+                const matchesProvince = selectedProvince.value.length === 0 || selectedProvince.value.includes(item['省市自治区']);
                 return (
                     (selectedSubjectType.value === '' || item['再选'] === selectedSubjectType.value) &&
-                    (selectedProvince.value === '' || item['省市自治区'] === selectedProvince.value) &&
+                    matchesProvince &&
                     (selectedType.value === '' || item['办学性质备注'] === selectedType.value) &&
-                    (selectedMajorType.value === '' || item['专业类'] === selectedMajorType.value) &&
+                    matchesMajorType &&
                     (selectedMajorName.value === '' || item['专业名称'] === selectedMajorName.value) &&
                     (minScore.value === null || item['2023年投档线'] >= minScore.value) &&
                     (maxScore.value === null || item['2023年投档线'] <= maxScore.value)
                 );
             });
         };
+
+
+
+        const filterOption = (input, option) => {
+            return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+        };
+
 
         return {
             selectedBatch,
@@ -362,6 +397,8 @@ export default {
             updateMinScore,
             updateMaxScore,
             handleFilter,
+            filterOption,
+            handleAddToArchive
         };
     },
     data() {
@@ -478,35 +515,13 @@ export default {
             ],
         };
     },
-    methods: {
-    addToArchive(record) {
-      const currentName = this.currentName;
-      const currentScore = this.currentScore;
-      if (!currentName || !currentScore) {
-        alert('请先设定报考人');
-        return;
-      }
-
-      const archiveName = `${currentName}${currentScore}`;
-      let archivesList = JSON.parse(localStorage.getItem('archivesList')) || [];
-      let archive = archivesList.find(archive => archive.name === archiveName);
-
-      if (archive) {
-        archive.data.push(record);
-        localStorage.setItem('archivesList', JSON.stringify(archivesList));
-        alert('数据已添加到报考档案');
-      } else {
-        alert('请先创建报考档案');
-      }
-    },
-  },
 };
 </script>
 
 <style scoped>
 .data-table-container {
     padding: 20px;
-    background-color: #f5f5f5;
+    background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     min-height: 1000px;

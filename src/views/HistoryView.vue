@@ -1,6 +1,6 @@
 <template>
   <div class="history-container">
-    <div class="history-message">历史请设置再选和批次</div>
+    <div class="history-message">历史类数据待更新</div>
   </div>
 </template>
 
@@ -16,7 +16,7 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f5f5f5;
+  background-color: #ffffff;
   padding: 20px;
 }
 

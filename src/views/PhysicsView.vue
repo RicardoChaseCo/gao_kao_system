@@ -18,8 +18,9 @@ export default {
 <style scoped>
 .physics-container {
   padding: 20px;
-  background-color: #f5f5f5;
+  background-color: #ffffff;
   min-height: 80vh;
+  border: 1px solid #ddd;
 }
 
 /* Additional styles for DataTable can be added here if needed */

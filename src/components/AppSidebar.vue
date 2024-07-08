@@ -57,12 +57,12 @@ export default {
 
 <style scoped>
 .custom-sidebar-menu {
-  width: 180px !important;
-  max-width: 180px !important;
+  width: 210px !important;
+  max-width: 210px !important;
   margin-top: 64px;
   --vsm-primary-color: #ffffff;
-  --vsm-base-bg: #f5f5f5;
-  --vsm-item-color: #000000;
+  --vsm-base-bg: #e2e2e2;
+  --vsm-item-color: rgb(43, 43, 43);
   --vsm-item-active-color: #3875f6;
   --vsm-item-active-bg: #f5f5f5;
   --vsm-item-active-line-color: #3875f6;
@@ -84,9 +84,10 @@ export default {
   --vsm-header-item-color: #000000;
   --vsm-toggle-btn-color: #000000;
   --vsm-toggle-btn-bg: #ffffff;
-  --vsm-item-font-size: 0.85rem;
+  --vsm-item-font-size: 0.8rem;
   --vsm-icon-height: 20px;
   --vsm-icon-width: 20px;
+  --vsm-item-line-height: 15px;
 
   border-right: 1px solid #ddd;
   margin-right: 10px;

@@ -2,7 +2,7 @@
   <a-layout style="height: 100vh; overflow: hidden;">
     <a-layout-sider
       :style="{ display: isMobile || sidebarHidden ? 'none' : 'block' }"
-      width="180"
+      width="210"
       class="sider"
     >
       <AppSidebar :menu="menu" />
@@ -105,7 +105,7 @@ a-layout {
   top: 0;
   left: 0;
   right: 0;
-  background-color: #f5f5f5;
+  background-color: #ffffff;
   border-bottom: 1px solid #ddd;
   transition: margin-left 0.3s, width 0.3s;
 }
@@ -113,7 +113,7 @@ a-layout {
 .app-content {
   margin-top: 64px; /* Adjust according to your header height */
   padding: 24px;
-  background: #fff;
+  background: #eff4fa;
   min-height: calc(100vh - 64px); /* Adjust according to your header height */
   overflow-y: auto;
 }

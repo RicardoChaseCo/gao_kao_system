@@ -2,7 +2,7 @@
   <a-layout-header class="app-header">
     <div class="header-content">
       <a-row :gutter="16" align="middle" class="header-row">
-        <img src="@/assets/logo.png" alt="老姜高考" style="width: 170px;"/>
+        <img src="@/assets/logo.png" alt="老姜高考" style="width: 170px; height: 100%"/>
         <a-col>
           <div @click="$emit('toggleSidebar')" class="menu-icon">
             <MenuFoldOutlined v-if="!props.sidebarHidden" :style="{ fontSize: '24px', color: '#007bff'}" />
@@ -10,19 +10,19 @@
           </div>
         </a-col>
         <a-col>
-          考生姓名
+          <span style="font-size: 0.8rem;">考生姓名</span>
           <input v-model="name" type="text" class="styled-input">
         </a-col>
         <a-col class="col-hidden">
-          考生分数
+          <span style="font-size: 0.8rem;">考生分数</span>
           <input v-model="score" type="text" class="styled-input">
         </a-col>
         <a-col class="col-hidden">
-          考生考号
+          <span style="font-size: 0.8rem;">考生考号</span>
           <input v-model="studentId" type="text" class="styled-input">
         </a-col>
         <a-col class="col-hidden">
-          考生位次
+          <span style="font-size: 0.8rem;">考生位次</span>
           <input v-model="subject" type="text" class="styled-input">
         </a-col>
         <a-col class="styled-col compact-col">
@@ -96,7 +96,7 @@ const createArchive = () => {
 
 .app-header {
   border-bottom: 1px solid #ddd;
-  background-color: #f5f5f5; /* 确保背景色为浅色 */
+  background-color: #ffffff; /* 确保背景色为浅色 */
 }
 
 .header-content {
@@ -134,7 +134,7 @@ const createArchive = () => {
 .styled-col {
   border: 1px solid #007bff;
   border-radius: 8px;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: #333;
   box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -153,9 +153,10 @@ const createArchive = () => {
 
 .compact-col {
   padding: 4px;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   line-height: 2;
 }
+
 
 @media (max-width: 1527px) and (min-width: 768px) {
   .compact-col {

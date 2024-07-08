@@ -1,22 +1,24 @@
 <template>
   <a-layout-header class="app-header">
     <div class="header-content">
+      <img src="@/assets/logo.png" alt="老姜高考" class="header-logo"/>
       <div>
         <a-row :gutter="16" align="middle" class="header-row">
-          <a-col>考生姓名</a-col>
+        
           <a-col>
+            考生姓名
             <input v-model="name" type="text" class="styled-input">
           </a-col>
-          <a-col>考生分数</a-col>
-          <a-col>
+          <a-col class="col-hidden">
+            考生分数
             <input v-model="score" type="text" class="styled-input">
           </a-col>
-          <a-col>考生考号</a-col>
-          <a-col>
+          <a-col class="col-hidden">
+            考生考号
             <input v-model="studentId" type="text" class="styled-input">
           </a-col>
-          <a-col>考生位次</a-col>
-          <a-col>
+          <a-col class="col-hidden">
+            考生位次
             <input v-model="subject" type="text" class="styled-input">
           </a-col>
           <a-col class="styled-col compact-col">
@@ -136,6 +138,32 @@ const createArchive = () => {
   padding: 4px;
   font-size: 0.8rem;
   line-height: 2;
+}
+
+@media (max-width: 1527px) and (min-width: 768px) {
+  .compact-col {
+    display: none;
+  }
+}
+
+@media (max-width: 1311px) and (min-width: 768px) {
+  .col-hidden {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .header-logo {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-logo {
+    display: block;
+    height: 60px;
+  }
+
 }
 
 @media (max-width: 768px) {

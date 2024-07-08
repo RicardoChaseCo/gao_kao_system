@@ -21,6 +21,7 @@
       v-model:visible="drawerVisible"
       placement="left"
       closable
+      :width="210"
       @close="drawerVisible = false"
     >
       <AppSidebar :menu="menu" />
@@ -29,7 +30,7 @@
       v-if="isMobile"
       class="menu-button"
       type="primary"
-      @click="drawerVisible = true"
+      @click="toggleDrawer"
       style="position: fixed; top: 10px; right: 10px; z-index: 1001;"
     >
       <MenuOutlined />
@@ -76,6 +77,9 @@ export default {
     handleResize() {
       this.isMobile = window.innerWidth <= 768;
     },
+    toggleDrawer() {
+      this.drawerVisible = !this.drawerVisible;
+    },
   },
   mounted() {
     this.handleResize();
@@ -87,7 +91,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 a-layout {
   transition: margin-left 0.2s;
 }

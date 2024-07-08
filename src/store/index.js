@@ -4,8 +4,8 @@ import { useStorage } from '@vueuse/core';
 const studentInformation = {
   name: '',
   score: 0,
-  studentId: '',
-  subject: ''
+  studentId: '0',
+  subject: '0'
 };
 
 const storedStudentInformation = useStorage('student-information', studentInformation);

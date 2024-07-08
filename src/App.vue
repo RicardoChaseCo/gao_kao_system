@@ -1,17 +1,14 @@
 <template>
   <a-layout style="height: 100vh; overflow: hidden;">
     <a-layout-sider
-      v-if="!isMobile"
-      v-model:collapsed="collapsed"
-      collapsible
-      @update:collapsed="handleCollapse"
-      width="210"
-      :collapsed-width="80"
+      :style="{ display: isMobile || sidebarHidden ? 'none' : 'block' }"
+      width="180"
+      class="sider"
     >
-      <AppSidebar :menu="menu" :collapsed="collapsed" />
+      <AppSidebar :menu="menu" />
     </a-layout-sider>
     <a-layout>
-      <AppHeader :collapsed="collapsed" class="app-header" />
+      <AppHeader :sidebarHidden="sidebarHidden" @toggleSidebar="toggleSidebar" class="app-header"/>
       <a-layout-content class="app-content">
         <router-view />
       </a-layout-content>
@@ -51,7 +48,7 @@ export default {
   },
   data() {
     return {
-      collapsed: false,
+      sidebarHidden: false,
       drawerVisible: false,
       isMobile: false,
       menu: [
@@ -71,11 +68,12 @@ export default {
     };
   },
   methods: {
-    handleCollapse(collapsed) {
-      this.collapsed = collapsed;
+    toggleSidebar() {
+      this.sidebarHidden = !this.sidebarHidden;
     },
     handleResize() {
       this.isMobile = window.innerWidth <= 768;
+      this.sidebarHidden = this.isMobile;
     },
     toggleDrawer() {
       this.drawerVisible = !this.drawerVisible;
@@ -92,12 +90,12 @@ export default {
 </script>
 
 <style scoped>
-a-layout {
-  transition: margin-left 0.2s;
+.sider {
+  transition: all 0.3s;
 }
 
-a-layout-sider {
-  transition: width 0.2s;
+a-layout {
+  transition: margin-left 0.3s;
 }
 
 .app-header {
@@ -109,7 +107,7 @@ a-layout-sider {
   right: 0;
   background-color: #f5f5f5;
   border-bottom: 1px solid #ddd;
-  transition: margin-left 0.2s, width 0.2s;
+  transition: margin-left 0.3s, width 0.3s;
 }
 
 .app-content {
@@ -124,12 +122,6 @@ a-layout-sider {
   display: none;
 }
 
-@media (min-width: 768px) {
-  .app-header {
-    margin-left: 210px;
-    width: calc(100% - 210px);
-  }
-}
 
 @media (max-width: 768px) {
   .menu-button {

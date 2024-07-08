@@ -1,31 +1,34 @@
 <template>
   <a-layout-header class="app-header">
     <div class="header-content">
-      <img src="@/assets/logo.png" alt="老姜高考" class="header-logo"/>
-      <div>
-        <a-row :gutter="16" align="middle" class="header-row">
-        
-          <a-col>
-            考生姓名
-            <input v-model="name" type="text" class="styled-input">
-          </a-col>
-          <a-col class="col-hidden">
-            考生分数
-            <input v-model="score" type="text" class="styled-input">
-          </a-col>
-          <a-col class="col-hidden">
-            考生考号
-            <input v-model="studentId" type="text" class="styled-input">
-          </a-col>
-          <a-col class="col-hidden">
-            考生位次
-            <input v-model="subject" type="text" class="styled-input">
-          </a-col>
-          <a-col class="styled-col compact-col">
-            当前报考人: {{ name }} - {{ score }} - {{ studentId }} - {{ subject }}
-          </a-col>
-        </a-row>
-      </div>
+      <a-row :gutter="16" align="middle" class="header-row">
+        <img src="@/assets/logo.png" alt="老姜高考" style="width: 170px;"/>
+        <a-col>
+          <div @click="$emit('toggleSidebar')" class="menu-icon">
+            <MenuFoldOutlined v-if="!props.sidebarHidden" :style="{ fontSize: '24px', color: '#007bff'}" />
+            <MenuUnfoldOutlined v-else :style="{ fontSize: '24px', color: '#007bff' }" />
+          </div>
+        </a-col>
+        <a-col>
+          考生姓名
+          <input v-model="name" type="text" class="styled-input">
+        </a-col>
+        <a-col class="col-hidden">
+          考生分数
+          <input v-model="score" type="text" class="styled-input">
+        </a-col>
+        <a-col class="col-hidden">
+          考生考号
+          <input v-model="studentId" type="text" class="styled-input">
+        </a-col>
+        <a-col class="col-hidden">
+          考生位次
+          <input v-model="subject" type="text" class="styled-input">
+        </a-col>
+        <a-col class="styled-col compact-col">
+          当前报考人: {{ name }} - {{ score }} - {{ studentId }} - {{ subject }}
+        </a-col>
+      </a-row>
       <div>
         <a-space size="large" class="header-row">
           <a-button type="primary" @click="setCandidate">设定报考人</a-button>
@@ -39,8 +42,16 @@
 <script setup>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
-
+import { defineProps } from 'vue';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons-vue';
+const props = defineProps({
+  sidebarHidden: {
+    type: Boolean,
+    required: true
+  }
+});
 const store = useStore();
+
 
 const name = computed({
   get: () => store.state.studentInformation.name,
@@ -77,6 +88,12 @@ const createArchive = () => {
 </script>
 
 <style scoped>
+.menu-icon {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
 .app-header {
   border-bottom: 1px solid #ddd;
   background-color: #f5f5f5; /* 确保背景色为浅色 */

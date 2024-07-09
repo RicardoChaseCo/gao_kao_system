@@ -9,50 +9,50 @@
             <MenuUnfoldOutlined v-else :style="{ fontSize: '24px', color: '#007bff' }" />
           </div>
         </a-col>
-        
+
         <a-col class="styled-col compact-col">
           当前报考人: {{ name }} - {{ score }} - {{ studentId }} - {{ subject }}
         </a-col>
       </a-row>
       <div>
-        <a-space size="large" class="header-row">
+        <a-space size="large" class="header-row" style="display: flex; align-items: center;">
           <a-col>
-          <a-dropdown :visible="dropdownVisible">
-            <a-button @click="toggleDropdown" class="dropdown-button" style="font-size: 0.8rem;">
-              输入考生信息
-              <DownOutlined v-if="!dropdownVisible" />
-              <UpOutlined v-else />
-            </a-button>
-            <template #overlay>
-              <a-menu class="dropdown-menu">
-                <a-menu-item>
-                  <span
-                    style="font-size: 0.8rem; margin-right: 10px; display: inline-block; border-bottom: 2px solid blue; padding-bottom: 2px; width: fit-content;">
-                    考生姓名
-                  </span>
-                  <input v-model="name" type="text" class="styled-input">
-                </a-menu-item>
-                <a-menu-item>
-                  <span
-                    style="font-size: 0.8rem; margin-right: 10px; display: inline-block; border-bottom: 2px solid blue; padding-bottom: 2px; width: fit-content;">考生分数</span>
-                  <input v-model="score" type="text" class="styled-input">
-                </a-menu-item>
-                <a-menu-item>
-                  <span
-                    style="font-size: 0.8rem; margin-right: 10px; display: inline-block; border-bottom: 2px solid blue; padding-bottom: 2px; width: fit-content;">考生考号</span>
-                  <input v-model="studentId" type="text" class="styled-input">
-                </a-menu-item>
-                <a-menu-item>
-                  <span
-                    style="font-size: 0.8rem; margin-right: 10px; display: inline-block; border-bottom: 2px solid blue; padding-bottom: 2px; width: fit-content;">考生位次</span>
-                  <input v-model="subject" type="text" class="styled-input">
-                </a-menu-item>
-              </a-menu>
-            </template>
-          </a-dropdown>
-        </a-col>
-          <a-button type="primary" @click="setCandidate" style="font-size: 0.8rem;">设定报考人</a-button>
-          <a-button type="primary" @click="createArchive" style="font-size: 0.8rem;">创建报考档案</a-button>
+            <a-dropdown :visible="dropdownVisible">
+              <a-button @click="toggleDropdown" class="dropdown-button" style="font-size: 0.7rem; margin-top: 3px;">
+                输入考生信息
+                <DownOutlined v-if="!dropdownVisible" />
+                <UpOutlined v-else />
+              </a-button>
+              <template #overlay>
+                <a-menu class="dropdown-menu">
+                  <a-menu-item>
+                    <span
+                      style="font-size: 0.8rem; margin-right: 10px; display: inline-block; border-bottom: 2px solid blue; padding-bottom: 2px; width: fit-content;">
+                      考生姓名
+                    </span>
+                    <input v-model="name" type="text" class="styled-input">
+                  </a-menu-item>
+                  <a-menu-item>
+                    <span
+                      style="font-size: 0.8rem; margin-right: 10px; display: inline-block; border-bottom: 2px solid blue; padding-bottom: 2px; width: fit-content;">考生分数</span>
+                    <input v-model="score" type="text" class="styled-input">
+                  </a-menu-item>
+                  <a-menu-item>
+                    <span
+                      style="font-size: 0.8rem; margin-right: 10px; display: inline-block; border-bottom: 2px solid blue; padding-bottom: 2px; width: fit-content;">考生考号</span>
+                    <input v-model="studentId" type="text" class="styled-input">
+                  </a-menu-item>
+                  <a-menu-item>
+                    <span
+                      style="font-size: 0.8rem; margin-right: 10px; display: inline-block; border-bottom: 2px solid blue; padding-bottom: 2px; width: fit-content;">考生位次</span>
+                    <input v-model="subject" type="text" class="styled-input">
+                  </a-menu-item>
+                </a-menu>
+              </template>
+            </a-dropdown>
+          </a-col>
+          <a-button type="primary" @click="setCandidate" style="font-size: 0.7rem;">设定报考人</a-button>
+          <a-button type="primary" @click="createArchive" style="font-size: 0.7rem;">创建报考档案</a-button>
         </a-space>
       </div>
     </div>
@@ -125,6 +125,7 @@ const toggleDropdown = () => {
 .app-header {
   border-bottom: 1px solid #ddd;
   background-color: #ffffff;
+  align-items: center;
   /* 确保背景色为浅色 */
 }
 

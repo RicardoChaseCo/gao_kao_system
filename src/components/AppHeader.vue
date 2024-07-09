@@ -2,37 +2,57 @@
   <a-layout-header class="app-header">
     <div class="header-content">
       <a-row :gutter="16" align="middle" class="header-row">
-        <img src="@/assets/logo.png" alt="老姜高考" style="width: 170px; height: 100%"/>
+        <img src="@/assets/logo.png" alt="老姜高考" style="width: 170px; height: 100%" />
         <a-col>
           <div @click="$emit('toggleSidebar')" class="menu-icon">
-            <MenuFoldOutlined v-if="!props.sidebarHidden" :style="{ fontSize: '24px', color: '#007bff'}" />
+            <MenuFoldOutlined v-if="!props.sidebarHidden" :style="{ fontSize: '24px', color: '#007bff' }" />
             <MenuUnfoldOutlined v-else :style="{ fontSize: '24px', color: '#007bff' }" />
           </div>
         </a-col>
-        <a-col>
-          <span style="font-size: 0.8rem;">考生姓名</span>
-          <input v-model="name" type="text" class="styled-input">
-        </a-col>
-        <a-col class="col-hidden">
-          <span style="font-size: 0.8rem;">考生分数</span>
-          <input v-model="score" type="text" class="styled-input">
-        </a-col>
-        <a-col class="col-hidden">
-          <span style="font-size: 0.8rem;">考生考号</span>
-          <input v-model="studentId" type="text" class="styled-input">
-        </a-col>
-        <a-col class="col-hidden">
-          <span style="font-size: 0.8rem;">考生位次</span>
-          <input v-model="subject" type="text" class="styled-input">
-        </a-col>
+        
         <a-col class="styled-col compact-col">
           当前报考人: {{ name }} - {{ score }} - {{ studentId }} - {{ subject }}
         </a-col>
       </a-row>
       <div>
         <a-space size="large" class="header-row">
-          <a-button type="primary" @click="setCandidate">设定报考人</a-button>
-          <a-button type="primary" @click="createArchive">创建报考档案</a-button>
+          <a-col>
+          <a-dropdown :visible="dropdownVisible">
+            <a-button @click="toggleDropdown" class="dropdown-button" style="font-size: 0.8rem;">
+              输入考生信息
+              <DownOutlined v-if="!dropdownVisible" />
+              <UpOutlined v-else />
+            </a-button>
+            <template #overlay>
+              <a-menu class="dropdown-menu">
+                <a-menu-item>
+                  <span
+                    style="font-size: 0.8rem; margin-right: 10px; display: inline-block; border-bottom: 2px solid blue; padding-bottom: 2px; width: fit-content;">
+                    考生姓名
+                  </span>
+                  <input v-model="name" type="text" class="styled-input">
+                </a-menu-item>
+                <a-menu-item>
+                  <span
+                    style="font-size: 0.8rem; margin-right: 10px; display: inline-block; border-bottom: 2px solid blue; padding-bottom: 2px; width: fit-content;">考生分数</span>
+                  <input v-model="score" type="text" class="styled-input">
+                </a-menu-item>
+                <a-menu-item>
+                  <span
+                    style="font-size: 0.8rem; margin-right: 10px; display: inline-block; border-bottom: 2px solid blue; padding-bottom: 2px; width: fit-content;">考生考号</span>
+                  <input v-model="studentId" type="text" class="styled-input">
+                </a-menu-item>
+                <a-menu-item>
+                  <span
+                    style="font-size: 0.8rem; margin-right: 10px; display: inline-block; border-bottom: 2px solid blue; padding-bottom: 2px; width: fit-content;">考生位次</span>
+                  <input v-model="subject" type="text" class="styled-input">
+                </a-menu-item>
+              </a-menu>
+            </template>
+          </a-dropdown>
+        </a-col>
+          <a-button type="primary" @click="setCandidate" style="font-size: 0.8rem;">设定报考人</a-button>
+          <a-button type="primary" @click="createArchive" style="font-size: 0.8rem;">创建报考档案</a-button>
         </a-space>
       </div>
     </div>
@@ -40,18 +60,20 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { defineProps } from 'vue';
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons-vue';
+import { MenuFoldOutlined, MenuUnfoldOutlined, DownOutlined, UpOutlined } from '@ant-design/icons-vue';
+
 const props = defineProps({
   sidebarHidden: {
     type: Boolean,
     required: true
   }
 });
-const store = useStore();
 
+const store = useStore();
+const dropdownVisible = ref(false);
 
 const name = computed({
   get: () => store.state.studentInformation.name,
@@ -85,6 +107,12 @@ const createArchive = () => {
   store.commit('addTableName', name);
   alert('报考档案创建成功');
 };
+
+const toggleDropdown = () => {
+  dropdownVisible.value = !dropdownVisible.value;
+};
+
+
 </script>
 
 <style scoped>
@@ -96,7 +124,8 @@ const createArchive = () => {
 
 .app-header {
   border-bottom: 1px solid #ddd;
-  background-color: #ffffff; /* 确保背景色为浅色 */
+  background-color: #ffffff;
+  /* 确保背景色为浅色 */
 }
 
 .header-content {
@@ -157,6 +186,42 @@ const createArchive = () => {
   line-height: 2;
 }
 
+.dropdown-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #007bff;
+  padding: 4px 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dropdown-button:hover {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+.dropdown-menu {
+  padding: 12px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu .a-menu-item {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 12px;
+}
+
+.dropdown-menu .a-menu-item span {
+  font-size: 0.8rem;
+  margin-bottom: 4px;
+}
 
 @media (max-width: 1527px) and (min-width: 768px) {
   .compact-col {
@@ -181,15 +246,16 @@ const createArchive = () => {
     display: block;
     height: 60px;
   }
-
 }
 
 @media (max-width: 768px) {
+
   .styled-input,
   .styled-col,
   .compact-col {
     font-size: 0.8rem;
   }
+
   .header-row {
     display: none;
   }

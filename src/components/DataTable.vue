@@ -1,22 +1,22 @@
 <template class="data-table-container">
     <div>
-        <a-form layout="inline" @submit.prevent="handleFilter" class="filter-form">
-            <a-form-item label="批次">
-                <a-select placeholder="选择批次" style="width: 200px" @change="updateBatch">
+        <a-form layout="vertical" @submit.prevent="handleFilter" class="filter-form">
+            <a-form-item label="批次" class="form-item">
+                <a-select placeholder="选择批次" style="width: 100%" @change="updateBatch">
                     <a-select-option value="提前批本科">提前批本科</a-select-option>
                     <a-select-option value="普通批本科">普通批本科</a-select-option>
                     <a-select-option value="提前批专科">提前批专科</a-select-option>
                     <a-select-option value="普通批专科">普通批专科</a-select-option>
                 </a-select>
             </a-form-item>
-            <a-form-item label="再选">
-                <a-select placeholder="选择再选" style="width: 200px" @change="updateSubjectType">
+            <a-form-item label="再选" class="form-item">
+                <a-select placeholder="选择再选" style="width: 100%" @change="updateSubjectType">
                     <a-select-option value="化学">化学</a-select-option>
                     <a-select-option value="不限">不限</a-select-option>
                 </a-select>
             </a-form-item>
-            <a-form-item label="省份">
-                <a-select mode="multiple" placeholder="选择省份" style="width: 200px" @change="updateProvince" show-search
+            <a-form-item label="省份" class="form-item">
+                <a-select mode="multiple" placeholder="选择省份" style="width: 100%" @change="updateProvince" show-search
                     :filter-option="filterOption">
                     <a-select-option value="河北省">河北省</a-select-option>
                     <a-select-option value="山西省">山西省</a-select-option>
@@ -54,8 +54,8 @@
                     <a-select-option value="澳门">澳门</a-select-option>
                 </a-select>
             </a-form-item>
-            <a-form-item label="公办民办">
-                <a-select placeholder="选择公办民办" style="width: 200px" @change="updateType">
+            <a-form-item label="公办民办" class="form-item">
+                <a-select placeholder="选择公办民办" style="width: 100%" @change="updateType">
                     <a-select-option value="公办">公办</a-select-option>
                     <a-select-option value="民办">民办</a-select-option>
                     <a-select-option value="合作办学">合作办学</a-select-option>
@@ -63,8 +63,8 @@
                     <a-select-option value="军兵种院校">军兵种院校</a-select-option>
                 </a-select>
             </a-form-item>
-            <a-form-item label="专业类">
-                <a-select mode="multiple" placeholder="选择专业类" style="width: 200px" @change="updateMajorType" show-search
+            <a-form-item label="专业类" class="form-item">
+                <a-select mode="multiple" placeholder="选择专业类" style="width: 100%" @change="updateMajorType" show-search
                     :filter-option="filterOption">
                     <a-select-option value="中医学类">中医学类</a-select-option>
                     <a-select-option value="中国语言文学类">中国语言文学类</a-select-option>
@@ -190,19 +190,16 @@
                 </a-select>
             </a-form-item>
 
-            <a-form-item label="专业名称">
-                <a-select placeholder="选择专业名称" style="width: 200px" @change="updateMajorName">
+            <a-form-item label="专业名称" class="form-item">
+                <a-select placeholder="选择专业名称" style="width: 100%" @change="updateMajorName">
                     <!-- Add options for major names dynamically based on data -->
                 </a-select>
             </a-form-item>
-            <a-form-item label="分数区间">
-                <a-input-number placeholder="最低分" style="width: 100px" @change="updateMinScore" />
-                -
-                <a-input-number placeholder="最高分" style="width: 100px" @change="updateMaxScore" />
+            <a-form-item label="分数下界" class="form-item">
+                <a-input-number placeholder="最低分" style="width: 200px" @change="updateMinScore" />
             </a-form-item>
-
-            <a-form-item>
-                <!-- <a-button type="primary" @click="handleFilter">筛选</a-button> -->
+            <a-form-item label="分数上界" class="form-item">
+                <a-input-number placeholder="最高分" style="width: 200px" @change="updateMaxScore" />
             </a-form-item>
         </a-form>
 
@@ -238,6 +235,7 @@
 import { ref } from 'vue';
 import { useStore } from 'vuex';
 import fileMappings from '@/data/index.js';
+import { notification } from 'ant-design-vue';
 
 export default {
     name: 'DataTable',
@@ -310,6 +308,16 @@ export default {
             filterData();
         };
 
+        const openNotification = (studentName, schoolName, majorName) => {
+    notification.open({
+        message: '添加到报考档案',
+        description: `${schoolName} ${majorName} 已经被添加到 ${studentName} 的报考档案。`,
+        onClick: () => {
+            console.log('Notification Clicked!');
+        },
+    });
+};
+
         const handleAddToArchive = (record) => {
             const { name } = store.state.studentInformation;
             if (!name) {
@@ -328,7 +336,7 @@ export default {
 
             };
             store.commit('addToArchive', { name, record: recordToAdd });
-            alert('数据已添加到报考档案');
+            openNotification(name, record['院校名称'], record['专业名称']);
         };
 
         const loadData = async () => {
@@ -415,19 +423,16 @@ export default {
                     title: '省份',
                     dataIndex: 'province',
                     key: 'province',
-                    fixed: 'left',
                 },
                 {
                     title: '专业类',
                     dataIndex: 'majorType',
                     key: 'majorType',
-                    fixed: 'left',
                 },
                 {
                     title: '专业名称',
                     dataIndex: 'majorName',
                     key: 'majorName',
-                    fixed: 'left',
                 },
                 {
                     title: '公办民办',
@@ -495,16 +500,14 @@ export default {
                     key: '2023年计划',
                 },
                 {
-                    title: '分数',
-                    dataIndex: 'score',
-                    key: 'score',
-                    fixed: 'right',
-                },
-                {
                     title: '2023年投档线位次',
                     dataIndex: '2023年投档线位次',
                     key: '2023年投档线位次',
-                    fixed: 'right',
+                },
+                {
+                    title: '分数',
+                    dataIndex: 'score',
+                    key: 'score',
                 },
                 {
                     title: '操作',
@@ -528,15 +531,13 @@ export default {
 }
 
 .filter-form {
-    margin-bottom: 20px;
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 16px; /* 设置栅格之间的间距 */
 }
 
-.filter-form .ant-form-item {
-    flex: 1;
-    min-width: 200px;
+.form-item {
+    flex: 0 0 200px; /* 固定宽度为200px */
 }
 
 .ant-table {

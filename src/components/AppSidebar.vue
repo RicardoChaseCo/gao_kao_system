@@ -7,11 +7,12 @@
     theme="white-theme"
     @item-click="onItemClick"
   >
-    <!-- <template v-slot:header>
+    <template v-slot:footer>
       <div class="sidebar-header">
         <img src="@/assets/logo.png" alt="老姜高考" class="sidebar-logo" />
+        zhuanzhu
       </div>
-    </template> -->
+    </template>
     <template v-slot:dropdown-icon="{ isOpen }">
       <span v-if="!isOpen">+</span>
       <span v-else>-</span>
@@ -69,9 +70,9 @@ export default {
   --vsm-item-open-color: #000000;
   --vsm-item-hover-color: #3875f6;
   --vsm-item-open-bg: #ffffff;
-  --vsm-item-hover-bg: #f5f5f5;
+  --vsm-item-hover-bg: #e2e2e2;
   --vsm-icon-color: rgb(76, 76, 76);
-  --vsm-icon-bg: #f5f5f5;
+  --vsm-icon-bg: #e2e2e2;
   --vsm-icon-active-color: #3875f6;
   --vsm-icon-active-bg: #ebebeb;
   --vsm-icon-open-color: #b40808;

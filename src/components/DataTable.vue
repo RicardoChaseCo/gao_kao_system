@@ -58,7 +58,7 @@
             </div>
             <div class="form-item">
                 <label for="type">公办民办</label>
-                <select id="type" v-model="selectedType" @change="updateType">
+                <select id="type" v-model="selectedType" multiple @change="updateType">
                     <option value="公办">公办</option>
                     <option value="民办">民办</option>
                     <option value="合作办学">合作办学</option>
@@ -208,6 +208,7 @@
             </div>
             <div class="form-item">
                 <button type="button" @click="clearFilters">清除筛选</button>
+                <a-button type="primary" @click="clearFilters" style="font-size: 0.7rem;">清除筛选</a-button>
             </div>
         </form>
 
@@ -238,6 +239,7 @@
         </a-table>
     </div>
 </template>
+
 <script>
 import { ref, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
@@ -323,7 +325,7 @@ export default {
         };
 
         const updateType = (event) => {
-            selectedType.value = event.target.value;
+            selectedType.value = Array.from(event.target.selectedOptions, option => option.value);
             saveFilters();
             filterData();
         };
@@ -334,7 +336,7 @@ export default {
             filterData();
         };
         const updateMajorName = (event) => {
-            selectedMajorName.value = event.target.value;
+            selectedMajorName.value = Array.from(event.target.selectedOptions, option => option.value);
             saveFilters();
             filterData();
         };
@@ -383,12 +385,14 @@ export default {
             filteredData.value = rawData.value.filter((item) => {
                 const matchesMajorType = selectedMajorType.value.length === 0 || selectedMajorType.value.includes(item['专业类']);
                 const matchesProvince = selectedProvince.value.length === 0 || selectedProvince.value.includes(item['省市自治区']);
+                const matchesType = selectedType.value.length === 0 || selectedType.value.includes(item['办学性质备注']);
+                const matchesMajorName = selectedMajorName.value.length === 0 || selectedMajorName.value.includes(item['专业名称']);
                 return (
                     (selectedSubjectType.value === '' || item['再选'] === selectedSubjectType.value) &&
                     matchesProvince &&
-                    (selectedType.value === '' || item['办学性质备注'] === selectedType.value) &&
+                    matchesType &&
                     matchesMajorType &&
-                    (selectedMajorName.value === '' || item['专业名称'] === selectedMajorName.value) &&
+                    matchesMajorName &&
                     (minScore.value === null || item['2023年投档线'] >= minScore.value) &&
                     (maxScore.value === null || item['2023年投档线'] <= maxScore.value)
                 );
@@ -598,6 +602,66 @@ export default {
 .form-item {
     flex: 0 0 200px;
     /* 固定宽度为200px */
+}
+
+label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+select {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+  outline: none;
+}
+
+option {
+  font-size: 0.8rem;
+  padding: 3px;
+}
+
+.clear-button {
+    background-color: #1890ff;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.clear-button:hover {
+    background-color: #40a9ff;
+}
+
+.clear-button:active {
+    background-color: #096dd9;
+    transform: scale(0.95);
+}
+
+select, input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #d9d9d9;
+    transition: border-color 0.3s ease;
+}
+
+select:focus, input[type="number"]:focus {
+    border-color: #40a9ff;
+    outline: none;
 }
 
 .ant-table {

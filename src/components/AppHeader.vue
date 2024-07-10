@@ -2,7 +2,7 @@
   <a-layout-header class="app-header">
     <div class="header-content">
       <a-row :gutter="16" align="middle" class="header-row">
-        <img src="@/assets/logo.png" alt="老姜高考" style="width: 170px; height: 100%" />
+        <img class="header-logo" src="@/assets/logo.png" alt="老姜高考" style="width: 170px; height: 100%" />
         <a-col>
           <div @click="$emit('toggleSidebar')" class="menu-icon">
             <MenuFoldOutlined v-if="!props.sidebarHidden" :style="{ fontSize: '24px', color: '#007bff' }" />
@@ -51,8 +51,8 @@
               </template>
             </a-dropdown>
           </a-col>
-          <a-button type="primary" @click="setCandidate" style="font-size: 0.7rem;">设定报考人</a-button>
-          <a-button type="primary" @click="createArchive" style="font-size: 0.7rem;">创建报考档案</a-button>
+          <a-button class="set-button" type="primary" @click="setCandidate" style="font-size: 0.7rem;">设定报考人</a-button>
+          <a-button class="set-button" type="primary" @click="createArchive" style="font-size: 0.7rem;">创建报考档案</a-button>
         </a-space>
       </div>
     </div>
@@ -224,41 +224,31 @@ const toggleDropdown = () => {
   margin-bottom: 4px;
 }
 
-@media (max-width: 1527px) and (min-width: 768px) {
+@media (max-width: 993px){
   .compact-col {
     display: none;
   }
 }
 
-@media (max-width: 1311px) and (min-width: 768px) {
-  .col-hidden {
-    display: none;
-  }
-}
-
-@media (min-width: 768px) {
-  .header-logo {
-    display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .header-logo {
-    display: block;
-    height: 60px;
-  }
-}
-
 @media (max-width: 768px) {
 
-  .styled-input,
-  .styled-col,
-  .compact-col {
-    font-size: 0.8rem;
+  /* .header-row {
+    display: none;
+  } */
+
+  .dropdown-button {
+    display: none;
+  }
+  .set-button {
+    display: none;
   }
 
-  .header-row {
+  .menu-icon {
     display: none;
+  }
+
+  .header-logo {
+    margin-top: 19px;
   }
 }
 </style>

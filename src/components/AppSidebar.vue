@@ -86,9 +86,9 @@ export default {
   --vsm-toggle-btn-color: #000000;
   --vsm-toggle-btn-bg: #ffffff;
   --vsm-item-font-size: 0.8rem;
-  --vsm-icon-height: 20px;
-  --vsm-icon-width: 20px;
-  --vsm-item-line-height: 15px;
+  --vsm-icon-height: 15px;
+  --vsm-icon-width: 15px;
+  --vsm-item-line-height: 20px;
 
   border-right: 1px solid #ddd;
   margin-right: 10px;

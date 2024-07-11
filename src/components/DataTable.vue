@@ -1,8 +1,13 @@
 <template class="data-table-container">
     <div>
+        <div style="margin-bottom: 10px;">
+            <a-button type="primary" @click="clearFilters" style="font-size: 0.8rem; width: 200px;">清除筛选</a-button>
+        </div>
+        <div style="height: 1px; background-color: #ebebeb;">
+        </div>
         <form @submit.prevent="handleFilter" class="filter-form">
             <div class="form-item">
-                <label for="batch">批次</label>
+                <p>批次</p>
                 <select id="batch" v-model="selectedBatch" @change="updateBatch">
                     <option value="提前批本科">提前批本科</option>
                     <option value="普通批本科">普通批本科</option>
@@ -11,14 +16,14 @@
                 </select>
             </div>
             <div class="form-item">
-                <label for="subjectType">再选</label>
+                <p>再选</p>
                 <select id="subjectType" v-model="selectedSubjectType" @change="updateSubjectType">
                     <option value="化学">化学</option>
                     <option value="不限">不限</option>
                 </select>
             </div>
             <div class="form-item">
-                <label for="province">省份</label>
+                <p>省份</p>
                 <select id="province" v-model="selectedProvince" multiple @change="updateProvince">
                     <option value="河北省">河北省</option>
                     <option value="山西省">山西省</option>
@@ -57,7 +62,7 @@
                 </select>
             </div>
             <div class="form-item">
-                <label for="type">公办民办</label>
+                <p>公办民办</p>
                 <select id="type" v-model="selectedType" multiple @change="updateType">
                     <option value="公办">公办</option>
                     <option value="民办">民办</option>
@@ -67,7 +72,7 @@
                 </select>
             </div>
             <div class="form-item">
-                <label for="majorType">专业类</label>
+                <p>专业类</p>
                 <select id="majorType" v-model="selectedMajorType" multiple @change="updateMajorType">
                     <option value="中医学类">中医学类</option>
                     <option value="中国语言文学类">中国语言文学类</option>
@@ -193,24 +198,22 @@
                 </select>
             </div>
             <div class="form-item">
-                <label for="majorName">专业名称</label>
+                <p>专业名称</p>
                 <select id="majorName" v-model="selectedMajorName" @change="updateMajorName">
                     <!-- 动态添加专业名称 -->
                 </select>
             </div>
             <div class="form-item">
-                <label for="minScore">分数下界</label>
+                <p>分数下界</p>
                 <input type="number" id="minScore" v-model="minScore" @change="updateMinScore" />
             </div>
             <div class="form-item">
-                <label for="maxScore">分数上界</label>
+                <p>分数上界</p>
                 <input type="number" id="maxScore" v-model="maxScore" @change="updateMaxScore" />
             </div>
-            <div class="form-item">
-                <button type="button" @click="clearFilters">清除筛选</button>
-                <a-button type="primary" @click="clearFilters" style="font-size: 0.7rem;">清除筛选</a-button>
-            </div>
         </form>
+        <div style="height: 1px; background-color: #ebebeb; margin-bottom: 10px;">
+        </div>
 
         <a-table :columns="columns" :dataSource="filteredData" :scroll="{ x: 2000, y: 850 }">
             <template #bodyCell="{ column, record }">
@@ -584,6 +587,10 @@ export default {
 </script>
 
 <style scoped>
+body {
+    font-family: Arial, sans-serif;
+}
+
 .data-table-container {
     padding: 20px;
     background-color: #ffffff;
@@ -596,62 +603,61 @@ export default {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
-    /* 设置栅格之间的间距 */
+    background-color: #f5f5f5;
+    padding: 10px
+        /* 设置栅格之间的间距 */
 }
 
 .form-item {
     flex: 0 0 200px;
-    /* 固定宽度为200px */
 }
 
-label {
-  font-size: 0.8rem;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #333;
+.form-item p {
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #000000;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 3px;
+    width: 80px;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 select {
-  width: 100%;
-  padding: 10px 15px;
-  font-size: 0.8rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: border-color 0.3s, box-shadow 0.3s;
+    padding: 10px 15px;
+    font-size: 0.8rem;
+    border: 2px solid #007BFF;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+select:hover {
+    border-color: #0056b3;
 }
 
 select:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
-  outline: none;
+    border-color: #0056b3;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.form-item select::placeholder {
+    color: #aaa;
 }
 
 option {
-  font-size: 0.8rem;
-  padding: 3px;
+    font-size: 0.8rem;
+    padding: 3px;
 }
 
-.clear-button {
-    background-color: #1890ff;
-    color: #ffffff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.clear-button:hover {
-    background-color: #40a9ff;
-}
-
-.clear-button:active {
-    background-color: #096dd9;
-    transform: scale(0.95);
-}
-
-select, input[type="number"] {
+select,
+input[type="number"] {
     width: 100%;
     padding: 8px;
     border-radius: 4px;
@@ -659,7 +665,8 @@ select, input[type="number"] {
     transition: border-color 0.3s ease;
 }
 
-select:focus, input[type="number"]:focus {
+select:focus,
+input[type="number"]:focus {
     border-color: #40a9ff;
     outline: none;
 }

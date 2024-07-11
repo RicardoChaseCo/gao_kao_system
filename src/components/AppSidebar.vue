@@ -62,7 +62,7 @@ export default {
   max-width: 210px !important;
   margin-top: 64px;
   --vsm-primary-color: #ffffff;
-  --vsm-base-bg: #e2e2e2;
+  --vsm-base-bg: #efefef;
   --vsm-item-color: rgb(43, 43, 43);
   --vsm-item-active-color: #3875f6;
   --vsm-item-active-bg: #f5f5f5;

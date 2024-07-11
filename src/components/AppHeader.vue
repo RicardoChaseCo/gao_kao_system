@@ -9,16 +9,15 @@
             <MenuUnfoldOutlined v-else :style="{ fontSize: '24px', color: '#007bff' }" />
           </div>
         </a-col>
-
-        <a-col class="styled-col compact-col">
-          当前报考人: {{ name }} - {{ score }} - {{ studentId }} - {{ subject }}
-        </a-col>
       </a-row>
       <div>
         <a-space size="large" class="header-row" style="display: flex; align-items: center;">
+          <a-col class="styled-col compact-col" style="font-size: 0.8rem; margin-top: 1.5px; padding-left: 10px; padding-right: 10px;">
+            当前报考人 : {{ name }}
+          </a-col>
           <a-col>
             <a-dropdown :visible="dropdownVisible">
-              <a-button @click="toggleDropdown" class="dropdown-button" style="font-size: 0.7rem; margin-top: 3px;">
+              <a-button @click="toggleDropdown" class="dropdown-button" style="font-size: 0.8rem; margin-top: 3px;">
                 输入考生信息
                 <DownOutlined v-if="!dropdownVisible" />
                 <UpOutlined v-else />
@@ -50,9 +49,11 @@
                 </a-menu>
               </template>
             </a-dropdown>
+
           </a-col>
-          <a-button class="set-button" type="primary" @click="setCandidate" style="font-size: 0.7rem;">设定报考人</a-button>
-          <a-button class="set-button" type="primary" @click="createArchive" style="font-size: 0.7rem;">创建报考档案</a-button>
+          <a-button class="set-button" type="primary" @click="setCandidate" style="font-size: 0.8rem;">设定报考人</a-button>
+          <a-button class="set-button" type="primary" @click="createArchive"
+            style="font-size: 0.8rem;">创建报考档案</a-button>
         </a-space>
       </div>
     </div>
@@ -162,13 +163,11 @@ const toggleDropdown = () => {
 }
 
 .styled-col {
-  border: 1px solid #007bff;
-  border-radius: 8px;
-  font-size: 0.7rem;
+  border: 1px solid #dbdbdb;
+  border-radius: 2px;
   color: #333;
-  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+  background-color: #f5f5f5;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  margin-left: 20px;
 }
 
 .styled-col:hover {
@@ -176,10 +175,6 @@ const toggleDropdown = () => {
   box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
 }
 
-.styled-col span {
-  font-weight: bold;
-  color: #007bff;
-}
 
 .compact-col {
   padding: 4px;
@@ -224,7 +219,7 @@ const toggleDropdown = () => {
   margin-bottom: 4px;
 }
 
-@media (max-width: 993px){
+@media (max-width: 993px) {
   .compact-col {
     display: none;
   }
@@ -239,6 +234,7 @@ const toggleDropdown = () => {
   .dropdown-button {
     display: none;
   }
+
   .set-button {
     display: none;
   }

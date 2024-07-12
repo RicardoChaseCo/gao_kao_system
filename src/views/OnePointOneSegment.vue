@@ -3,11 +3,11 @@
     <div class="list-container">
       <div class="list">
         <div class="list-title">历史类一分一段</div>
-        <a-table :columns="columns" :dataSource="dataSource" pagination={false} />
+        <a-table :columns="columns" :dataSource="dataSource" pagination={false} size="small"/>
       </div>
       <div class="list">
         <div class="list-title">物理类一分一段</div>
-        <a-table :columns="columns" :dataSource="dataSource" pagination={false} />
+        <a-table :columns="columns" :dataSource="dataSource" pagination={false} size="small"/>
       </div>
     </div>
   </div>
@@ -62,18 +62,16 @@ export default {
 
 .list {
   width: 48%;
-  border: 1px solid #ccc;
 }
 
 .list-title {
-  font-size: 18px;
+  font-size: 0.8rem;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
 .ant-table {
   background: white;
-  border-radius: 8px;
   overflow: hidden;
 }
 </style>

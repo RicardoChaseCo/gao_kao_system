@@ -8,7 +8,7 @@
           <a-button type="danger" @click="handleDeleteArchive(name)">删除</a-button>
         </div>
       </div>
-      <a-table :dataSource="archive.data" :columns="columns" :pagination="false" />
+      <a-table :dataSource="archive.data" :columns="columns" :pagination="false" size="small"/>
     </div>
   </div>
 </template>

@@ -1,7 +1,10 @@
 <template class="data-table-container">
     <div>
-        <div style="margin-bottom: 10px;">
-            <a-button type="primary" @click="clearFilters" style="font-size: 0.8rem; width: 130px; margin-left: 10px">清除筛选</a-button>
+        <div style="display: flex;">
+            <div style="margin-bottom: 10px;">
+                <a-button type="primary" @click="clearFilters"
+                    style="font-size: 0.8rem; width: 130px; margin-left: 10px">清除筛选</a-button>
+            </div>
         </div>
         <div style="height: 1px; background-color: #ebebeb;">
         </div>
@@ -24,7 +27,8 @@
             </div>
             <div class="form-item">
                 <p>省份</p>
-                <select id="province" v-model="selectedProvince" multiple @change="updateProvince" style="height: 70px;">
+                <select id="province" v-model="selectedProvince" multiple @change="updateProvince"
+                    style="height: 70px;">
                     <option value="河北省">河北省</option>
                     <option value="山西省">山西省</option>
                     <option value="辽宁省">辽宁省</option>
@@ -73,7 +77,8 @@
             </div>
             <div class="form-item">
                 <p>专业类</p>
-                <select id="majorType" v-model="selectedMajorType" multiple @change="updateMajorType" style="height: 70px;">
+                <select id="majorType" v-model="selectedMajorType" multiple @change="updateMajorType"
+                    style="height: 70px;">
                     <option value="中医学类">中医学类</option>
                     <option value="中国语言文学类">中国语言文学类</option>
                     <option value="中药学类">中药学类</option>
@@ -215,31 +220,31 @@
         <div style="height: 1px; background-color: #ebebeb; margin-bottom: 10px;">
         </div>
 
-        <a-table :columns="columns" :dataSource="filteredData" :scroll="{ x: 2000, y: 850 }" size="small" :row-class-name="(_record, index) => (index % 2 === 1 ? 'table-striped' : null)"> 
-            <template #bodyCell="{ column, record }">
-                <template v-if="column.key === 'schoolName'">
-                    <a>{{ record['院校名称'] }}</a>
-                </template>
-                <template v-else-if="column.key === 'majorName'">
-                    <span>{{ record['专业名称'] }}</span>
-                </template>
-                <template v-else-if="column.key === 'province'">
-                    <span>{{ record['省市自治区'] }}</span>
-                </template>
-                <template v-else-if="column.key === 'score'">
-                    <span>{{ record['2023年投档线'] }}</span>
-                </template>
-                <template v-else-if="column.key === 'type'">
-                    <span>{{ record['办学性质备注'] }}</span>
-                </template>
-                <template v-else-if="column.key === 'majorType'">
-                    <span>{{ record['专业类'] }}</span>
-                </template>
-                <template v-else-if="column.key === 'actions'">
-                    <a-button type="primary" @click="handleAddToArchive(record)">添加</a-button>
-                </template>
-            </template>
-        </a-table>
+        <a-table :columns="columns" :dataSource="filteredData" :scroll="{ x: 2000, y: 850 }" size="small" class="custom-table">
+    <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'schoolName'">
+            <a class="custom-font">{{ record['院校名称'] }}</a>
+        </template>
+        <template v-else-if="column.key === 'majorName'">
+            <span class="custom-font">{{ record['专业名称'] }}</span>
+        </template>
+        <template v-else-if="column.key === 'province'">
+            <span class="custom-font">{{ record['省市自治区'] }}</span>
+        </template>
+        <template v-else-if="column.key === 'score'">
+            <span class="custom-font">{{ record['2023年投档线'] }}</span>
+        </template>
+        <template v-else-if="column.key === 'type'">
+            <span class="custom-font">{{ record['办学性质备注'] }}</span>
+        </template>
+        <template v-else-if="column.key === 'majorType'">
+            <span class="custom-font">{{ record['专业类'] }}</span>
+        </template>
+        <template v-else-if="column.key === 'actions'">
+            <a-button type="primary" @click="handleAddToArchive(record)" class="custom-font">添加</a-button>
+        </template>
+    </template>
+</a-table>
     </div>
 </template>
 
@@ -589,7 +594,6 @@ body {
 .data-table-container {
     padding: 20px;
     background-color: #ffffff;
-    border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     min-height: 1000px;
 }
@@ -600,7 +604,6 @@ body {
     gap: 16px;
     background-color: #f5f5f5;
     padding: 10px
-        /* 设置栅格之间的间距 */
 }
 
 .form-item {
@@ -625,7 +628,6 @@ select {
     padding: 10px 15px;
     font-size: 0.8rem;
     border: 2px solid #007BFF;
-    border-radius: 5px;
     background-color: #fff;
     color: #333;
     outline: none;
@@ -656,7 +658,6 @@ select,
 input[type="number"] {
     width: 100%;
     padding: 8px;
-    border-radius: 4px;
     border: 1px solid #d9d9d9;
     transition: border-color 0.3s ease;
 }
@@ -669,7 +670,10 @@ input[type="number"]:focus {
 
 .ant-table {
     background: white;
-    border-radius: 8px;
     overflow: hidden;
+}
+
+.custom-table .custom-font {
+    font-size: 0.8rem;
 }
 </style>

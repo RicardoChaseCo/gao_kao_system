@@ -12,11 +12,13 @@
       </a-row>
       <div>
         <a-space size="large" class="header-row" style="display: flex; align-items: center;">
-          
-          <a-col class="styled-col compact-col" style="font-size: 0.8rem; margin-top: 1.5px; padding-left: 10px; padding-right: 10px; background-color: #ecf1fe; color: #285df6;">
+          <a-col class="styled-col compact-col"
+            style="font-size: 0.8rem; margin-top: 1.5px; padding-left: 10px; padding-right: 10px; background-color: #ecf1fe; color: #285df6;">
             <a-avatar size="small">
-        <template #icon><UserOutlined /></template>
-      </a-avatar>
+              <template #icon>
+                <UserOutlined />
+              </template>
+            </a-avatar>
             当前报考人 : {{ name }}
           </a-col>
           <a-col>
@@ -55,10 +57,11 @@
             </a-dropdown>
 
           </a-col>
-          <a-button class="set-button" @click="setCandidate" style="font-size: 0.8rem; background-color: #f5f5f5;">设定报考人</a-button>
+          <a-button class="set-button" @click="setCandidate"
+            style="font-size: 0.8rem; background-color: #f5f5f5;">设定报考人</a-button>
           <a-button class="set-button" @click="createArchive"
             style="font-size: 0.8rem; background-color: #f5f5f5;">创建报考档案</a-button>
-            <a-avatar style="color: #f56a00; background-color: #fde3cf" class="avatar">姜</a-avatar>
+          <a-avatar style="color: #f56a00; background-color: #fde3cf" class="avatar">姜</a-avatar>
         </a-space>
       </div>
     </div>
@@ -70,6 +73,7 @@ import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { defineProps } from 'vue';
 import { MenuFoldOutlined, MenuUnfoldOutlined, DownOutlined, UpOutlined, UserOutlined } from '@ant-design/icons-vue';
+import { notification } from 'ant-design-vue';
 
 const props = defineProps({
   sidebarHidden: {
@@ -98,8 +102,28 @@ const subject = computed({
   set: value => store.commit('setSubject', value)
 });
 
+const openNotificationBaoKao = (studentName) => {
+  notification.open({
+    message: '设定报考人',
+    description: `报考人已被设置为 ${studentName} 。`,
+    onClick: () => {
+      console.log('Notification Clicked!');
+    },
+  });
+};
+
+const openNotificationDangAn = (studentName) => {
+  notification.open({
+    message: '创建报考档案',
+    description: `${studentName} 已经被添加到报考信息数据库。`,
+    onClick: () => {
+      console.log('Notification Clicked!');
+    },
+  });
+};
+
 const setCandidate = () => {
-  alert('报考人信息输入成功');
+  openNotificationBaoKao(name.value);
 };
 
 const createArchive = () => {
@@ -111,7 +135,7 @@ const createArchive = () => {
   }
 
   store.commit('addTableName', name);
-  alert('报考档案创建成功');
+  openNotificationDangAn(name.value);
 };
 
 const toggleDropdown = () => {

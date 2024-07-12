@@ -1,7 +1,7 @@
 <template class="data-table-container">
     <div>
         <div style="margin-bottom: 10px;">
-            <a-button type="primary" @click="clearFilters" style="font-size: 0.8rem; width: 200px;">清除筛选</a-button>
+            <a-button type="primary" @click="clearFilters" style="font-size: 0.8rem; width: 130px; margin-left: 10px">清除筛选</a-button>
         </div>
         <div style="height: 1px; background-color: #ebebeb;">
         </div>
@@ -24,7 +24,7 @@
             </div>
             <div class="form-item">
                 <p>省份</p>
-                <select id="province" v-model="selectedProvince" multiple @change="updateProvince">
+                <select id="province" v-model="selectedProvince" multiple @change="updateProvince" style="height: 70px;">
                     <option value="河北省">河北省</option>
                     <option value="山西省">山西省</option>
                     <option value="辽宁省">辽宁省</option>
@@ -63,7 +63,7 @@
             </div>
             <div class="form-item">
                 <p>公办民办</p>
-                <select id="type" v-model="selectedType" multiple @change="updateType">
+                <select id="type" v-model="selectedType" multiple @change="updateType" style="height: 70px;">
                     <option value="公办">公办</option>
                     <option value="民办">民办</option>
                     <option value="合作办学">合作办学</option>
@@ -73,7 +73,7 @@
             </div>
             <div class="form-item">
                 <p>专业类</p>
-                <select id="majorType" v-model="selectedMajorType" multiple @change="updateMajorType">
+                <select id="majorType" v-model="selectedMajorType" multiple @change="updateMajorType" style="height: 70px;">
                     <option value="中医学类">中医学类</option>
                     <option value="中国语言文学类">中国语言文学类</option>
                     <option value="中药学类">中药学类</option>
@@ -215,7 +215,7 @@
         <div style="height: 1px; background-color: #ebebeb; margin-bottom: 10px;">
         </div>
 
-        <a-table :columns="columns" :dataSource="filteredData" :scroll="{ x: 2000, y: 850 }">
+        <a-table :columns="columns" :dataSource="filteredData" :scroll="{ x: 2000, y: 850 }" size="small" :row-class-name="(_record, index) => (index % 2 === 1 ? 'table-striped' : null)"> 
             <template #bodyCell="{ column, record }">
                 <template v-if="column.key === 'schoolName'">
                     <a>{{ record['院校名称'] }}</a>
@@ -520,11 +520,6 @@ export default {
                     key: '主管部门',
                 },
                 {
-                    title: '学校档次',
-                    dataIndex: '学校档次',
-                    key: '学校档次',
-                },
-                {
                     title: '硕士招生资格',
                     dataIndex: '硕士招生资格',
                     key: '硕士招生资格',
@@ -609,13 +604,14 @@ body {
 }
 
 .form-item {
-    flex: 0 0 200px;
+    flex: 0 0 130px;
+
 }
 
 .form-item p {
     font-size: 0.8rem;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 2px;
     color: #000000;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -653,7 +649,7 @@ select:focus {
 
 option {
     font-size: 0.8rem;
-    padding: 3px;
+    padding: 1px;
 }
 
 select,

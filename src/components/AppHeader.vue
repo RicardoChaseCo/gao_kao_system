@@ -5,19 +5,23 @@
         <img class="header-logo" src="@/assets/logo.png" alt="老姜高考" style="width: 170px; height: 100%" />
         <a-col>
           <div @click="$emit('toggleSidebar')" class="menu-icon">
-            <MenuFoldOutlined v-if="!props.sidebarHidden" :style="{ fontSize: '24px', color: '#007bff' }" />
-            <MenuUnfoldOutlined v-else :style="{ fontSize: '24px', color: '#007bff' }" />
+            <MenuFoldOutlined v-if="!props.sidebarHidden" :style="{ fontSize: '20px', color: '#007bff' }" />
+            <MenuUnfoldOutlined v-else :style="{ fontSize: '20px', color: '#007bff' }" />
           </div>
         </a-col>
       </a-row>
       <div>
         <a-space size="large" class="header-row" style="display: flex; align-items: center;">
-          <a-col class="styled-col compact-col" style="font-size: 0.8rem; margin-top: 1.5px; padding-left: 10px; padding-right: 10px;">
+          
+          <a-col class="styled-col compact-col" style="font-size: 0.8rem; margin-top: 1.5px; padding-left: 10px; padding-right: 10px; background-color: #ecf1fe; color: #285df6;">
+            <a-avatar size="small">
+        <template #icon><UserOutlined /></template>
+      </a-avatar>
             当前报考人 : {{ name }}
           </a-col>
           <a-col>
             <a-dropdown :visible="dropdownVisible">
-              <a-button @click="toggleDropdown" class="dropdown-button" style="font-size: 0.8rem; margin-top: 3px;">
+              <a-button @click="toggleDropdown" class="dropdown-button" style="font-size: 0.8rem; margin-top: 1.5px; ">
                 输入考生信息
                 <DownOutlined v-if="!dropdownVisible" />
                 <UpOutlined v-else />
@@ -51,9 +55,10 @@
             </a-dropdown>
 
           </a-col>
-          <a-button class="set-button" type="primary" @click="setCandidate" style="font-size: 0.8rem;">设定报考人</a-button>
-          <a-button class="set-button" type="primary" @click="createArchive"
-            style="font-size: 0.8rem;">创建报考档案</a-button>
+          <a-button class="set-button" @click="setCandidate" style="font-size: 0.8rem; background-color: #f5f5f5;">设定报考人</a-button>
+          <a-button class="set-button" @click="createArchive"
+            style="font-size: 0.8rem; background-color: #f5f5f5;">创建报考档案</a-button>
+            <a-avatar style="color: #f56a00; background-color: #fde3cf" class="avatar">姜</a-avatar>
         </a-space>
       </div>
     </div>
@@ -64,7 +69,7 @@
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { defineProps } from 'vue';
-import { MenuFoldOutlined, MenuUnfoldOutlined, DownOutlined, UpOutlined } from '@ant-design/icons-vue';
+import { MenuFoldOutlined, MenuUnfoldOutlined, DownOutlined, UpOutlined, UserOutlined } from '@ant-design/icons-vue';
 
 const props = defineProps({
   sidebarHidden: {
@@ -127,7 +132,9 @@ const toggleDropdown = () => {
   border-bottom: 1px solid #ddd;
   background-color: #ffffff;
   align-items: center;
-  /* 确保背景色为浅色 */
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 50px;
 }
 
 .header-content {
@@ -135,6 +142,7 @@ const toggleDropdown = () => {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  height: 100%;
 }
 
 .styled-input {
@@ -143,7 +151,6 @@ const toggleDropdown = () => {
   padding: 8px;
   font-size: 0.8rem;
   border: 1px solid #ccc;
-  border-radius: 4px;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -164,7 +171,6 @@ const toggleDropdown = () => {
 
 .styled-col {
   border: 1px solid #dbdbdb;
-  border-radius: 2px;
   color: #333;
   background-color: #f5f5f5;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -187,7 +193,6 @@ const toggleDropdown = () => {
   align-items: center;
   justify-content: center;
   border: 1px solid #007bff;
-  border-radius: 4px;
   background-color: #ffffff;
   color: #007bff;
   padding: 4px 12px;
@@ -204,7 +209,6 @@ const toggleDropdown = () => {
   padding: 12px;
   background-color: #ffffff;
   border: 1px solid #ddd;
-  border-radius: 4px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -243,8 +247,8 @@ const toggleDropdown = () => {
     display: none;
   }
 
-  .header-logo {
-    margin-top: 19px;
+  .avatar {
+    display: none;
   }
 }
 </style>

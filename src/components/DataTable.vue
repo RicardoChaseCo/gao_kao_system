@@ -2,9 +2,27 @@
     <div>
         <div style="display: flex;">
             <div style="margin-bottom: 10px;">
-                <a-button type="primary" @click="clearFilters"
-                    style="font-size: 0.8rem; width: 130px; margin-left: 10px">清除筛选</a-button>
+                <a-button type="primary" @click="clearFilters" style="font-size: 0.8rem; width: 100px;">清除筛选</a-button>
             </div>
+            <div class="filter-text-and-icon">
+            <AppstoreTwoTone style="font-size: 25px; margin-top: 5px; margin-bottom: 5px; margin-left: 10px;" />
+            <div class="filter-text-main">
+                当前筛选条件：
+            </div>
+        </div>
+            <div style="margin-bottom: 10px;">
+                <template v-if="filterDescription.length > 0">
+                    <span v-for="(desc, index) in filterDescription" :key="index" class="filter-item">
+                        <span class="filter-text">{{ desc.key }}: {{ desc.value }}</span>
+                    </span>
+                </template>
+                <template v-else >
+                    <span class="filter-item">
+                        <span class="filter-text">None</span>
+                    </span>
+                </template>
+            </div>
+
         </div>
         <div style="height: 1px; background-color: #ebebeb;">
         </div>
@@ -220,41 +238,48 @@
         <div style="height: 1px; background-color: #ebebeb; margin-bottom: 10px;">
         </div>
 
-        <a-table :columns="columns" :dataSource="filteredData" :scroll="{ x: 2000, y: 850 }" size="small" class="custom-table">
-    <template #bodyCell="{ column, record }">
-        <template v-if="column.key === 'schoolName'">
-            <a class="custom-font">{{ record['院校名称'] }}</a>
-        </template>
-        <template v-else-if="column.key === 'majorName'">
-            <span class="custom-font">{{ record['专业名称'] }}</span>
-        </template>
-        <template v-else-if="column.key === 'province'">
-            <span class="custom-font">{{ record['省市自治区'] }}</span>
-        </template>
-        <template v-else-if="column.key === 'score'">
-            <span class="custom-font">{{ record['2023年投档线'] }}</span>
-        </template>
-        <template v-else-if="column.key === 'type'">
-            <span class="custom-font">{{ record['办学性质备注'] }}</span>
-        </template>
-        <template v-else-if="column.key === 'majorType'">
-            <span class="custom-font">{{ record['专业类'] }}</span>
-        </template>
-        <template v-else-if="column.key === 'actions'">
-            <a-button type="primary" @click="handleAddToArchive(record)" class="custom-font">添加</a-button>
-        </template>
-    </template>
-</a-table>
+        <a-table :columns="columns" :dataSource="filteredData" :scroll="{ x: 2000, y: 850 }" size="small"
+            class="custom-table">
+            <template #bodyCell="{ column, record }">
+                <template v-if="column.key === 'schoolName'">
+                    <a class="custom-font">{{ record['院校名称'] }}</a>
+                </template>
+                <template v-else-if="column.key === 'majorName'">
+                    <span class="custom-font">{{ record['专业名称'] }}</span>
+                </template>
+                <template v-else-if="column.key === 'province'">
+                    <span class="custom-font">{{ record['省市自治区'] }}</span>
+                </template>
+                <template v-else-if="column.key === 'score'">
+                    <span class="custom-font">{{ record['2023年投档线'] }}</span>
+                </template>
+                <template v-else-if="column.key === 'type'">
+                    <span class="custom-font">{{ record['办学性质备注'] }}</span>
+                </template>
+                <template v-else-if="column.key === 'majorType'">
+                    <span class="custom-font">{{ record['专业类'] }}</span>
+                </template>
+                <template v-else-if="column.key === 'actions'">
+                    <a-button type="primary" @click="handleAddToArchive(record)" class="custom-font">添加</a-button>
+                </template>
+            </template>
+        </a-table>
     </div>
 </template>
 
 <script>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed, onBeforeUnmount } from 'vue';
 import { useStore } from 'vuex';
 import fileMappings from '@/data/index.js';
 import { notification } from 'ant-design-vue';
+import eventBus from '@/eventBus';
+import { AppstoreTwoTone } from '@ant-design/icons-vue';
+
 
 export default {
+    components: {
+        AppstoreTwoTone
+    },
     name: 'DataTable',
     setup() {
         const store = useStore();
@@ -292,6 +317,7 @@ export default {
                 maxScore: maxScore.value
             };
             sessionStorage.setItem('database_filter_options', JSON.stringify(filters));
+            eventBus.emit('filters-changed'); // 使用 mitt 触发事件
         };
 
         const loadFilters = () => {
@@ -406,10 +432,14 @@ export default {
                 );
             });
         };
-
         onMounted(() => {
             loadFilters();
             loadData();
+            eventBus.on('filters-changed', handleFiltersChanged); // 使用 mitt 监听事件
+        });
+
+        onBeforeUnmount(() => {
+            eventBus.off('filters-changed', handleFiltersChanged); // 使用 mitt 移除监听
         });
 
         watch(selectedBatch, () => {
@@ -454,6 +484,52 @@ export default {
             return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
         };
 
+        const handleFiltersChanged = () => {
+            loadFilters();
+            filterData();
+        };
+
+
+        const filterDescription = computed(() => {
+            const filters = {
+                batch: selectedBatch.value,
+                subjectType: selectedSubjectType.value,
+                province: Array.isArray(selectedProvince.value) ? selectedProvince.value.join(', ') : selectedProvince.value,
+                type: Array.isArray(selectedType.value) ? selectedType.value.join(', ') : selectedType.value,
+                majorType: Array.isArray(selectedMajorType.value) ? selectedMajorType.value.join(', ') : selectedMajorType.value,
+                majorName: selectedMajorName.value,
+                minScore: minScore.value,
+                maxScore: maxScore.value
+            };
+            let description = [];
+            if (filters.batch) {
+                description.push({ key: '批次', value: filters.batch });
+            }
+            if (filters.subjectType) {
+                description.push({ key: '再选', value: filters.subjectType });
+            }
+            if (filters.province) {
+                description.push({ key: '省份', value: filters.province });
+            }
+            if (filters.type) {
+                description.push({ key: '公办民办', value: filters.type });
+            }
+            if (filters.majorType) {
+                description.push({ key: '专业类', value: filters.majorType });
+            }
+            if (filters.majorName) {
+                description.push({ key: '专业名称', value: filters.majorName });
+            }
+            if (filters.minScore !== null) {
+                description.push({ key: '分数下界', value: filters.minScore });
+            }
+            if (filters.maxScore !== null) {
+                description.push({ key: '分数上界', value: filters.maxScore });
+            }
+            return description;
+        });
+
+
         return {
             selectedBatch,
             selectedSubjectType,
@@ -476,7 +552,9 @@ export default {
             handleFilter,
             clearFilters,
             filterOption,
-            handleAddToArchive
+            handleAddToArchive,
+            filterDescription,
+            handleFiltersChanged
         };
     },
     data() {
@@ -608,7 +686,13 @@ body {
 
 .form-item {
     flex: 0 0 130px;
+    padding: 5px;
 
+}
+
+.form-item:hover {
+    border: 1px dashed #bfbfbf;
+    padding: 4px;
 }
 
 .form-item p {
@@ -673,7 +757,34 @@ input[type="number"]:focus {
     overflow: hidden;
 }
 
-.custom-table .custom-font {
+.filter-item {
+    border: 1px solid #d3d3d3;
+    /* 灰色边框 */
+    border-radius: 20px;
+    background-color: #f5f5f5;
+    /* 浅灰色背景 */
+    margin: 6px 6px 6px 0px;
+    display: inline-block;
+    padding: 3px;
+    font-size: 0.8rem;
+}
+
+.filter-text-and-icon {
+    display: flex;
+    min-width: 140px;
+}
+
+.filter-text {
+    color: #636363;
+    /* 深灰色字体 */
+    padding: 3px;
+    font-size: 0.8rem;
+}
+
+.filter-text-main {
+    color: #515156;
+    margin: 5px 0px 5px 5px;
+    padding: 5px;
     font-size: 0.8rem;
 }
 </style>

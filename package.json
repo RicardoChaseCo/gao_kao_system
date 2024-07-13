@@ -19,6 +19,7 @@
     "ant-design-vue": "^4.2.3",
     "axios": "^1.7.2",
     "core-js": "^3.8.3",
+    "mitt": "^3.0.1",
     "oh-vue-icons": "^1.0.0-rc3",
     "primeflex": "^3.3.1",
     "primeicons": "^7.0.0",

@@ -9,8 +9,7 @@
   >
     <template v-slot:footer>
       <div class="sidebar-header">
-        <img src="@/assets/logo.png" alt="老姜高考" class="sidebar-logo" />
-        zhuanzhu
+        专注高考报告
       </div>
     </template>
     <template v-slot:dropdown-icon="{ isOpen }">
@@ -61,20 +60,20 @@ export default {
   width: 210px !important;
   max-width: 210px !important;
   margin-top: 50px;
-  --vsm-primary-color: #ffffff;
-  --vsm-base-bg: #eeeeee;
-  --vsm-item-color: rgb(43, 43, 43);
-  --vsm-item-active-color: #3875f6;
-  --vsm-item-active-bg: #e5effb;
+  --vsm-primary-color: #fafafa;
+  --vsm-base-bg: #fafafa;
+  --vsm-item-color: rgb(68, 68, 68);
+  --vsm-item-active-color: #000000;
+  --vsm-item-active-bg: #f4f4f5;
   --vsm-item-active-line-color: #3875f6;
   --vsm-item-open-color: #000000;
-  --vsm-item-hover-color: #3875f6;
+  --vsm-item-hover-color: #000000;
   --vsm-item-open-bg: #ffffff;
-  --vsm-item-hover-bg: #e5effb;
+  --vsm-item-hover-bg: #f4f4f5;
   --vsm-icon-color: rgb(76, 76, 76);
-  --vsm-icon-bg: #eeeeee;
-  --vsm-icon-active-color: #3875f6;
-  --vsm-icon-active-bg: #ebebeb;
+  --vsm-icon-bg: #fafafa;
+  --vsm-icon-active-color: #000000;
+  --vsm-icon-active-bg: #fafafa;
   --vsm-icon-open-color: #b40808;
   --vsm-icon-open-bg: #d60909;
   --vsm-mobile-item-color: #000000;

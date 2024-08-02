@@ -113,7 +113,7 @@ a-layout {
 .app-content {
   margin-top: 50px; /* Adjust according to your header height */
   padding: 24px;
-  background: #eff4fa;
+  background: #ffffff;
   min-height: calc(100vh - 50px); /* Adjust according to your header height */
   overflow-y: auto;
 }

@@ -13,7 +13,7 @@
       <div>
         <a-space size="large" class="header-row" style="display: flex; align-items: center;">
           <a-col class="styled-col compact-col"
-            style="font-size: 0.8rem; margin-top: 1.5px; padding-left: 10px; padding-right: 10px; background-color: #ecf1fe; color: #285df6;">
+            style="font-size: 0.8rem; margin-top: 1.5px; padding-left: 10px; padding-right: 10px; background-color: #f4f4f5; color: #000000;">
             <a-avatar size="small">
               <template #icon>
                 <UserOutlined />
@@ -202,7 +202,7 @@ const toggleDropdown = () => {
 
 .styled-col:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+  box-shadow: 0 6px 12px rgba(134, 140, 145, 0.3);
 }
 
 
@@ -216,17 +216,17 @@ const toggleDropdown = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #007bff;
+  border: 1px solid #dbdbdb;
   background-color: #ffffff;
-  color: #007bff;
+  color: #3c3c3c;
   padding: 4px 12px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .dropdown-button:hover {
-  background-color: #007bff;
-  color: #ffffff;
+  background-color: #e0e0e0;
+  color: #000000;
 }
 
 .dropdown-menu {
